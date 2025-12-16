@@ -1,34 +1,53 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 import requests
+import os
 
 router = APIRouter()
 
-OLLAMA_CHAT_URL = "http://localhost:11434/api/chat"
+OLLAMA_CHAT_URL = "https://pitch-resistant-finger-environment.trycloudflare.com/api/embeddings"
 
 class ChatRequest(BaseModel):
     message: str
 
 @router.post("/chat")
 def chat(req: ChatRequest):
-    response = requests.post(
-        OLLAMA_CHAT_URL,
-        json={
-            "model": "qwen2:0.5b",
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "You are a helpful AI assistant for user questions."
-                },
-                {
-                    "role": "user",
-                    "content": req.message
-                }
-            ],
-            "stream": False
-        },
-        timeout=45
-    )
+    try:
+        response = requests.post(
+            OLLAMA_CHAT_URL,
+            json={
+                "model": "qwen2:0.5b",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful AI assistant for user questions."
+                    },
+                    {
+                        "role": "user",
+                        "content": req.message
+                    }
+                ],
+                "stream": False
+            },
+            timeout=45
+        )
 
-    reply = response.json()["message"]["content"]
-    return {"reply": reply}
+        response.raise_for_status()
+
+        data = response.json()
+        reply = data.get("message", {}).get("content")
+
+        if not reply:
+            raise ValueError("Empty response from Ollama")
+
+        return {"reply": reply}
+
+    except Exception as e:
+        # ✅ Safe fallback for Render / Cloud
+        return {
+            "reply": (
+                "⚠️ Chat is unavailable on the hosted version.\n\n"
+                "Reason: Ollama runs locally and cannot be accessed from cloud hosting.\n\n"
+                "👉 To use chat, run the backend locally with Ollama running."
+            )
+        }
