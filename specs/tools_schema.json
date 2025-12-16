@@ -1,0 +1,13 @@
+{
+  "id": "string",
+  "name": "string",
+  "description": "string",
+  "domain": "Text | Image | Video | Audio | Code | Data | Productivity",
+  "actions": ["generate | edit | summarize | analyze | translate | transcribe | convert"],
+  "input_types": ["text | image | audio | video | code"],
+  "output_types": ["text | image | audio | video | code"],
+  "use_cases": ["string"],
+  "pricing": "free | freemium | paid",
+  "api_available": true,
+  "tags": ["string"]
+}

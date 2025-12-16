@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tool Details</title>
+  <meta charset="UTF-8" />
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 40px;
+    }
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    a {
+      color: #22c55e;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<a href="index.html">← Back</a>
+
+<div id="tool" class="card"></div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const toolId = params.get("id");
+
+  async function loadTool() {
+    const res = await fetch(`http://127.0.0.1:8000/tool/${toolId}`);
+    const tool = await res.json();
+
+    const div = document.getElementById("tool");
+
+    if (tool.error) {
+      div.innerHTML = "<p>Tool not found</p>";
+      return;
+    }
+
+    div.innerHTML = `
+      <h1>${tool.name}</h1>
+      <p><b>Description:</b> ${tool.description}</p>
+      <p><b>Domain:</b> ${tool.domain}</p>
+      <p><b>Actions:</b> ${tool.actions.join(", ")}</p>
+      <p><b>Use cases:</b> ${tool.use_cases.join(", ")}</p>
+      <p><b>Pricing:</b> ${tool.pricing}</p>
+      <p><b>API available:</b> ${tool.api_available}</p>
+    `;
+  }
+
+  loadTool();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "domain": "Text | Image | Video | Audio | Code | Data | Productivity",
+  "action": "generate | edit | summarize | analyze | translate | transcribe | convert",
+  "input_type": "text | image | audio | video | code",
+  "output_type": "text | image | audio | video | code",
+  "use_case": "string",
+  "constraints": {
+    "pricing": "free | freemium | paid | any"
+  }
+}
