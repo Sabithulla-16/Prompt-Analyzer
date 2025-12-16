@@ -5,7 +5,10 @@ import os
 
 router = APIRouter()
 
-OLLAMA_CHAT_URL = "https://pitch-resistant-finger-environment.trycloudflare.com/api/embeddings"
+OLLAMA_CHAT_URL = os.getenv(
+    "OLLAMA_BASE_URL",
+    "http://localhost:11434"
+) + "/api/chat"
 
 class ChatRequest(BaseModel):
     message: str
