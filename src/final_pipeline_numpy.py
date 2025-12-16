@@ -20,7 +20,10 @@ ID_FILE = os.path.join(DATA_DIR, "tool_ids.json")
 BAD_PROMPT_LOG = os.path.join(DATA_DIR, "bad_prompts.log")
 FEEDBACK_LOG = os.path.join(DATA_DIR, "user_feedback.jsonl")
 
-OLLAMA_EMBED_URL = "http://localhost:11434/api/embeddings"
+OLLAMA_EMBED_URL = os.getenv(
+    "OLLAMA_EMBED_URL",
+    "http://localhost:11434/api/embeddings"  # fallback for local dev
+)
 
 # ================= LOAD DATA =================
 
