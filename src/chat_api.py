@@ -1,14 +1,10 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 import requests
-import os
 
 router = APIRouter()
 
-OLLAMA_CHAT_URL = os.getenv(
-    "OLLAMA_BASE_URL",
-    "http://localhost:11434"
-) + "/api/chat"
+OLLAMA_CHAT_URL = "http://localhost:11434/api/chat"
 
 class ChatRequest(BaseModel):
     message: str
@@ -32,7 +28,7 @@ def chat(req: ChatRequest):
                 ],
                 "stream": False
             },
-            timeout=45
+            timeout=None
         )
 
         response.raise_for_status()

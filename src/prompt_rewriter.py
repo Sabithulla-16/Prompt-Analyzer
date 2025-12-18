@@ -132,7 +132,7 @@ def rewrite_prompt(user_prompt: str) -> str:
                 ],
                 "stream": False
             },
-            timeout=45
+            timeout=None
         )
         response.raise_for_status()
 

@@ -20,7 +20,7 @@ ID_FILE = os.path.join(DATA_DIR, "tool_ids.json")
 BAD_PROMPT_LOG = os.path.join(DATA_DIR, "bad_prompts.log")
 FEEDBACK_LOG = os.path.join(DATA_DIR, "user_feedback.jsonl")
 
-OLLAMA_EMBED_URL = "https://pitch-resistant-finger-environment.trycloudflare.com/api/embeddings"
+OLLAMA_EMBED_URL = "http://localhost:11434/api/embeddings"
 
 # ================= LOAD DATA =================
 
@@ -51,7 +51,7 @@ def embed_prompt(prompt: str):
         res = requests.post(
             OLLAMA_EMBED_URL,
             json={"model": "nomic-embed-text", "prompt": prompt},
-            timeout=10
+            timeout=None
         )
         res.raise_for_status()
 
